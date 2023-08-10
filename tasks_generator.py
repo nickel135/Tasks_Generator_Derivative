@@ -4,45 +4,87 @@ import math
 from sympy import *
 
 
-def generator_random_point():
-    random_point = random.randint(1, 10)
-    return random_point
-
-"Задача № 13274"
-def derivative_of_tangent_in_random_point():
-    random_point = generator_random_point()
+'''Задача № 13274 c портала https://kuzovkin.info/one_exercise_1/13274
+ Выписать производную в заданной точке (точках) x0:
+f(x) = (1 + tg^2(2x))**3, x0 = π/8'''
+def task_13274():
+    answer = 1.234
     x = Symbol('x')
-    expr = (1 + (tan(2*x))**2)**3
-    prime = expr.diff(x)
-    result = simplify(prime)
-    answer = result.subs(x, pi/random_point)
-    task = f'Вычислите: \(diff_{expr}; x={pi/random_point}\)'
+    while ask(Q.complex(answer)) is True:
+        k = random.randint(1, 10)
+        expr = (1 + (tan(2*x))**2)**3
+        prime = expr.diff(x)
+        result = simplify(prime)
+        answer = result.subs(x, pi/k)
+        task = r'Вычислите значение производной заданной функции: \( y= ' + str(
+             latex(expr)) + r"\) в точке \(x_0 = \frac{\pi}{" + str(k) + "}\)"
+        if ask(Q.integer(answer)) is True:
+            break
     return answer, task
 
-"Задача № 42911"
-def derivative_of_sqrt_in_random_point():
-    random_point = generator_random_point()
+'''Задача № 3034 c портала https://kuzovkin.info/one_exercise_1/3034
+ Найти критические точки функции: y = x**2 + 4x + 5'''
+def task_3034():
+    answer = 1.234
     x = Symbol('x')
-    expr = sqrt(x)
-    prime = expr.diff(x)
-    answer = prime.subs(x, random_point)
-    task = f'Вычислите: \(diff_{expr}; x={random_point}\)'
+    while ask(Q.complex(answer)) is True:
+        k = random.randint(1, 10)
+        m = random.randint(1, 10)
+        n = random.randint(1, 10)
+        expr = k*(x**2) + (m*x) + n
+        prime = expr.diff(x)
+        result = solveset(Eq(prime, 0), x)
+        for i in result:
+            if ask(Q.integer(i)) is True:
+                answer = i
+        task = r'Вычислите критические точки функции: \( y= ' + str(
+             latex(expr)) + '\)'
+        if ask(Q.integer(answer)) is True:
+            break
     return answer, task
 
-"Задача № 3034"
-def critical_point():
+'''Задача № 42911 c портала https://kuzovkin.info/one_exercise_1/42911
+ Найдите значение производной заданной функции в точке x0: y = sqrt(x), x0 = 4'''
+def task_42911():
+    answer = 1.234
     x = Symbol('x')
-    expr = x**2 + 4*x + 5
-    prime = expr.diff(x)
-    answer = solveset(Eq(prime, 0), x)
-    task = f'Вычислите: \(critical_point_{expr}\)'
+    while ask(Q.complex(answer)) is True:
+        a = random.randint(1, 10)
+        k = random.randint(1, 3)
+        m = random.randint(1, 10)
+        expr = k*(sqrt(x))
+        prime = expr.diff(x)
+        answer = prime.subs(x, a)
+        task = r'Найдите значение производной заданной функции: \( y= '+str(
+            latex(expr))+ r"\) в точке \(x_0 = \{" + str(m) +"}\)"
+        if ask(Q.integer(answer)) is True:
+            break
     return answer, task
 
-task_1 = derivative_of_tangent_in_random_point()
-task_2 = derivative_of_sqrt_in_random_point()
-task_3 = critical_point()
+'''Задача № 42912 c портала https://kuzovkin.info/one_exercise_1/42912
+ Найдите значение производной заданной функции в точке x0: y = x**2, x0 = −7'''
+def task_42912():
+    answer = 1.234
+    x = Symbol('x')
+    while ask(Q.complex(answer)) is True:
+        a = random.randint(1, 10)
+        k = random.randint(1, 3)
+        m = random.randint(1, 3)
+        expr = m*(x**k)
+        prime = expr.diff(x)
+        answer = prime.subs(x, a)
+        task = r'Найдите значение производной заданной функции: \( y= ' + str(
+            latex(expr)) + r"\) в точке \(x_0 = \{" + str(a) + "}\)"
+        if ask(Q.integer(answer)) is True:
+            break
+    return answer, task
 
-stack_of_functions = [task_1, task_2, task_3]
+task_1 = task_13274()
+task_2 = task_3034()
+task_3 = task_42911()
+task_4 = task_42912()
+
+stack_of_functions = [task_1, task_2, task_3, task_4]
 
 def derivative_tasks_generator():
     answer = random.choice(stack_of_functions)
